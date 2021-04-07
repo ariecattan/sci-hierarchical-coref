@@ -74,26 +74,26 @@ def main():
     with jsonlines.open(sys_path, 'r') as f:
         system = [line for line in f]
 
-    # coref, connected = get_coref_scores(gold, system)
-    # print('Coref metrics')
-    # for metric, scores in coref.items():
-    #     if metric != 'conll':
-    #         recall, precision, f1 = scores
-    #         print(metric.ljust(10), 'Recall: %.2f' % (recall * 100),
-    #               ' Precision: %.2f' % (precision * 100),
-    #               ' F1: %.2f' % (f1 * 100))
-    # conll_f1 = coref['conll'] / 3 * 100
-    # print('CoNLL score: %.2f' % conll_f1)
-    #
-    # print('Connected Components metrics')
-    # for metric, scores in connected.items():
-    #     if metric != 'conll':
-    #         recall, precision, f1 = scores
-    #         print(metric.ljust(10), 'Recall: %.2f' % (recall * 100),
-    #               ' Precision: %.2f' % (precision * 100),
-    #               ' F1: %.2f' % (f1 * 100))
-    # conll_f1 = connected['conll'] / 3 * 100
-    # print('CoNLL score: %.2f' % conll_f1)
+    coref, connected = get_coref_scores(gold, system)
+    print('Coref metrics')
+    for metric, scores in coref.items():
+        if metric != 'conll':
+            recall, precision, f1 = scores
+            print(metric.ljust(10), 'Recall: %.2f' % (recall * 100),
+                  ' Precision: %.2f' % (precision * 100),
+                  ' F1: %.2f' % (f1 * 100))
+    conll_f1 = coref['conll'] / 3 * 100
+    print('CoNLL score: %.2f' % conll_f1)
+
+    print('Connected Components metrics')
+    for metric, scores in connected.items():
+        if metric != 'conll':
+            recall, precision, f1 = scores
+            print(metric.ljust(10), 'Recall: %.2f' % (recall * 100),
+                  ' Precision: %.2f' % (precision * 100),
+                  ' F1: %.2f' % (f1 * 100))
+    conll_f1 = connected['conll'] / 3 * 100
+    print('CoNLL score: %.2f' % conll_f1)
 
 
     hypernyms = HypernymScore(gold, system)
