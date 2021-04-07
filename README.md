@@ -11,13 +11,13 @@
 
 1. Pipeline: coref model (Cattan et al., 2020) and entailement model for relations.
     * Training the coref model `python train_coref_scorer.py --configs configs/coref.yaml` 
-    * Find the best threshold of the agglomerative clustering on the dev set `python `
+    * Find the best threshold of the agglomerative clustering on the dev set `python tuned_threshold.py --config configs/config_clustering.json`
     * Fine-tune the entailment model 
 
-2. Multiclass 
-`
-python train_multiclass.py --config configs/multiclass.yaml
-`
+2. Multiclass
+    * Training the multiclass model `python train_multiclass.py --config configs/multiclass.yaml`
+    * Find the best threshold for the agglomerative clustering and the hypernym relations
+     `python tune_hp_multiclass.py --configs configs/mutliclass.yaml`
 
 
 
@@ -53,7 +53,8 @@ python predict.py
 ```
 
 
-* Multiclass model
+* Multiclass model (set in the `configs/multiclass.yaml` the path to `checkpoint`, the threshold for the agglomerative clustering 
+`agg_threshold` and the threshold for the hypernym relations `hypernym_threshold`)
 ```
 python predict_multiclass.py --config configs/multiclass.yaml
 ```
