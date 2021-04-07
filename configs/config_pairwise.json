@@ -1,0 +1,33 @@
+{
+  "gpu_num" : [0],
+  "bert_model": "allenai/cs_roberta_base",
+  "bert_hidden_size": 768,
+  "hidden_layer": 768,
+  "dropout": 0.3,
+  "with_mention_width": true,
+  "with_head_attention": true,
+  "embedding_dimension": 20,
+  "training_method": "scratch",
+
+  "max_mention_span": 20,
+  "random_seed": 0,
+  "epochs": 10,
+  "batch_size": 32,
+  "learning_rate": 1e-4,
+  "weight_decay": 0,
+  "loss": "bce",
+  "optimizer": "adam",
+  "adam_epsilon": 1e-8,
+  "segment_window": 512,
+  "neg_samp": true,
+  "exact": true,
+
+  "log_path": "logs/pairwise_scorer/",
+  "training_set": "data/train/train.jsonl",
+  "dev_set": "data/dev/dev.jsonl",
+
+
+  "span_repr_path": "models/roberta_span_scorers_exact/events_span_repr_0",
+  "span_scorer_path": "models/roberta_span_scorers_exact/events_span_scorer_0",
+  "model_path": "models/sci_model/cs_roberta/model"
+}

@@ -1,0 +1,26 @@
+{
+  "gpu_num" : [1],
+
+  "bert_model": "allenai/cs_roberta_base",
+  "nli_model": "roberta-large-mnli",
+  "hidden_layer": 768,
+  "dropout": 0.3,
+  "with_mention_width": true,
+  "with_head_attention": true,
+  "embedding_dimension": 20,
+
+
+  "use_gold_mentions": true,
+  "segment_window": 512,
+  "keep_singletons": true,
+
+  "topic_level": true,
+  "data_path": "data/test/jsonl/binu.jsonl",
+
+
+  "save_path": "models/sci_model/cs_roberta/test",
+  "model_path" : "models/sci_model/cs_roberta/model",
+  "model_num": 3,
+
+  "linkage_type": "average"
+}

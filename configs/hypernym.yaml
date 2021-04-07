@@ -1,0 +1,10 @@
+# model
+gpu_num: [0]
+bert_model: "roberta-large"
+batch_size: 32
+learning_rate: 1e-4
+
+# data and model path
+training_set: "data/train/train.jsonl"
+dev_set: "data/dev/dev.jsonl"
+model_path: "checkpoints/hypernym/roberta_mnli_fine_tuned"
