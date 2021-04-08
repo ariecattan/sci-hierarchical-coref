@@ -43,7 +43,7 @@ class MulticlassInference:
         :param pairwise_scores:
         :return: adjacency matrix of coref
         '''
-        num_of_mentions = info_pairs.max().item() + 1
+        num_of_mentions = info_pairs[:, 1:].max().item() + 1
         adjacency = torch.eye(num_of_mentions)
         coref_predictions = torch.argmax(pairwise_scores, dim=1)
         preds = torch.nonzero(coref_predictions != 0).squeeze(-1)
@@ -89,7 +89,7 @@ class MulticlassInference:
         permutations = [(x, y) for x, y in permutations if x != y]
         first, second = zip(*permutations)
         info_pairs = pairs[:, 1:].tolist()
-        avg_scores = torch.stack([self.get_mention_pairs(clusters[x], clusters[y], info_pairs, scores[:, 3])
+        avg_scores = torch.stack([self.get_mention_pairs(clusters[cluster_ids[x]], clusters[cluster_ids[y]], info_pairs, scores[:, 3])
                                   for x, y in zip(first, second)])
 
         inds = torch.nonzero(avg_scores >= self.hypernym_threshold).squeeze(-1)
@@ -133,7 +133,9 @@ class MulticlassInference:
         all_scores = torch.split_with_sizes(self.pairwise_scores, tuple(vals))
 
         predicted_data = []
-        for topic, (topic_pair, topic_scores) in enumerate(zip(all_pairs, all_scores)):
+        for topic, (topic_pair, topic_scores) in enumerate(tqdm(zip(all_pairs, all_scores), total=len(all_scores))):
+            # if topic == 44:
+            #     print('BUGGG')
             data = self.get_topic_prediction(topic, topic_pair, topic_scores)
             predicted_data.append(data)
 
@@ -168,6 +170,9 @@ if __name__ == '__main__':
     logger.info("pid: {}".format(os.getpid()))
     logger.info('Server name: {}'.format(socket.gethostname()))
 
+    if not os.path.exists(config['save_path']):
+        os.makedirs(config['save_path'])
+
     logger.info('loading models')
     model = CorefEntailmentLightning.load_from_checkpoint(config['checkpoint'], config=config)
 
@@ -180,12 +185,13 @@ if __name__ == '__main__':
                                  num_workers=16,
                                  pin_memory=True)
 
-    logger = CSVLogger(save_dir='logs', name='multiclass_inference')
-    trainer = pl.Trainer(gpus=config['gpu_num'], accelerator='dp', logger=logger)
-    results = trainer.predict(model, dataloaders=test_loader)
-    results = torch.cat([torch.tensor(x) for x in results])
+    # pl_logger = CSVLogger(save_dir='logs', name='multiclass_inference')
+    # trainer = pl.Trainer(gpus=config['gpu_num'], accelerator='dp', logger=pl_logger)
+    # results = trainer.predict(model, dataloaders=test_loader)
+    # results = torch.cat([torch.tensor(x) for x in results])
+    # torch.save(results, 'checkpoints/test_100.pt')
 
-
+    results = torch.load('checkpoints/test_100.pt')
     inference = MulticlassInference(test, results, config['agg_threshold'], config['hypernym_threshold'])
     inference.predict_cluster_relations()
     inference.save_predicted_file(config['save_path'])

@@ -108,7 +108,7 @@ def predict_topic(topic, hypernym_model=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default='configs/config_clustering.json')
-    parser.add_argument('--threshold', type=str, default='0.3')
+    parser.add_argument('--threshold', type=str, default='0.65')
     args = parser.parse_args()
 
     config = pyhocon.ConfigFactory.parse_file(args.config)
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     logger.info('Loading checkpoints..')
     bert_tokenizer = AutoTokenizer.from_pretrained(config['bert_model'])
     bert_model = AutoModel.from_pretrained(config['bert_model']).to(device)
-    hypernym_model = EntailmentModel(config, device)
+    hypernym_model = EntailmentModel(config['nli_model'], device)
 
     config['bert_hidden_size'] = bert_model.config.hidden_size
     span_repr, span_scorer, pairwise_scorer = init_models(config, device)
@@ -153,6 +153,10 @@ if __name__ == '__main__':
 
         doc_num, docs_embeddings, docs_length = pad_and_read_bert(topic['bert_tokens'], bert_model)
         continuous_embeddings, width, clusters = get_mention_embeddings(topic, docs_embeddings)
+
+        if topic_num == 58:
+            print(len(continuous_embeddings))
+
         start_end = torch.stack([torch.cat((mention[0], mention[-1])) for mention in continuous_embeddings])
         width = torch.tensor(width, device=device)
         clusters = torch.tensor(clusters, device=device)
@@ -211,6 +215,8 @@ if __name__ == '__main__':
 
 
     logger.info('Saving sys files...')
+    if not os.path.exists(config['save_path']):
+        os.makedirs(config['save_path'])
     jsonl_path = os.path.join(config['save_path'], 'system_{}.jsonl'.format(args.threshold))
     with jsonlines.open(jsonl_path, 'w') as f:
         f.write_all(predicted_data)

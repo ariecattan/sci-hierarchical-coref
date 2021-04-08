@@ -1,4 +1,4 @@
-from eval.evaluate import get_average_strict_hypernym, get_all_scores
+from evaluate import get_average_strict_hypernym, get_all_scores
 import numpy as np
 import jsonlines
 import os

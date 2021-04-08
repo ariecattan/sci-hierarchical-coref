@@ -21,7 +21,7 @@ from models.muticlass import CorefEntailmentLightning
 from predict_multiclass import MulticlassInference
 
 from eval.shortest_path import ShortestPath
-
+from eval.hypernym import HypernymScore
 
 
 
@@ -83,6 +83,10 @@ if __name__ == '__main__':
     for coref, hypernym in tqdm(pairs):
         inference = MulticlassInference(dev, results, coref, hypernym)
         inference.predict_cluster_relations()
+
+        # hypernym = HypernymScore(dev.data, inference.predicted_data)
+        # scores.append(hypernym.micro_f1)
+
         path_based = ShortestPath(dev.data, inference.predicted_data, directed=True, with_tn=True)
         scores.append(path_based.micro_average)
 

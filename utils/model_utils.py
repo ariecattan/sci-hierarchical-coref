@@ -121,6 +121,9 @@ def get_mention_embeddings(topic, docs_embeddings):
     for doc_id, original_start, original_end, cluster_id in topic['mentions']:
         start = topic['starts'][doc_id][original_start]
         end = topic['ends'][doc_id][original_end]
+
+        if start > len(docs_embeddings[doc_id]):
+            print(f"problem with topic {topic['id']}")
         mention_embedding = docs_embeddings[doc_id][start: end + 1]
         embeddings.append(mention_embedding)
         clusters.append(cluster_id)

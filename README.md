@@ -65,5 +65,5 @@ python predict_multiclass.py --config configs/multiclass.yaml
 The inference script saves a `.jsonl` file which needs to be evaluated against the `test.jsonl` for all evaluation metrics.
 
 ```
-python eval/evaluate.py gold system
+python evaluate.py gold system
 ```

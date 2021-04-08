@@ -1,9 +1,9 @@
 {
-  "gpu_num" : [1],
+  "gpu_num" : [0],
 
-  "bert_model": "allenai/cs_roberta_base",
+  "bert_model": "roberta-large",
   "nli_model": "roberta-large-mnli",
-  "hidden_layer": 768,
+  "hidden_layer": 1024,
   "dropout": 0.3,
   "with_mention_width": true,
   "with_head_attention": true,
@@ -15,12 +15,12 @@
   "keep_singletons": true,
 
   "topic_level": true,
-  "data_path": "data/test/jsonl/binu.jsonl",
+  "data_path": "data/test_100.jsonl",
 
 
-  "save_path": "models/sci_model/cs_roberta/test",
-  "model_path" : "models/sci_model/cs_roberta/model",
-  "model_num": 3,
+  "save_path": "checkpoints/baselines/ecb_model/test_large",
+  "model_path" : "checkpoints/baselines/ecb_model/model",
+  "model_num": 2,
 
   "linkage_type": "average"
 }

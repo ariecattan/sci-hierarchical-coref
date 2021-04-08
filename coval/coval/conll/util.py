@@ -1,7 +1,7 @@
 def parse_key_file(key_file):
         try:
                 from nltk.parse.stanford import StanfordParser
-                parser = StanfordParser(model_path="edu/stanford/nlp/checkpoints/lexparser/englishPCFG.ser.gz", java_options='-Xmx8G')
+                parser = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz", java_options='-Xmx8G')
                 print("Starting to parse key_file!")
                 print("This might take a while...")
                 new_file = open(key_file + ".parsed","w")
@@ -60,7 +60,7 @@ def parse_key_file(key_file):
 
         except:
                 print("You need to set the CLASSPATH environment variable to point to the Stanford parser!")
-                print("Example: export CLASSPATH=/path/to/stanford-parser-full-YYYY-MM-DD/stanford-parser.jar:/path/to/stanford-parser-full-YYYY-MM-DD/stanford-parser-X.X.X-checkpoints.jar")
+                print("Example: export CLASSPATH=/path/to/stanford-parser-full-YYYY-MM-DD/stanford-parser.jar:/path/to/stanford-parser-full-YYYY-MM-DD/stanford-parser-X.X.X-models.jar")
                 print("")
                 raise
 

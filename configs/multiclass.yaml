@@ -15,7 +15,7 @@ model:
 data:
   training_set: data/train.jsonl
   dev_set: data/dev.jsonl
-  test_set: data/test.jsonl
+  test_set: data/test_100.jsonl
 
 
 full_doc: false
@@ -23,9 +23,8 @@ model_path: checkpoints
 log: logs
 
 
-
 # inference
 checkpoint: checkpoints/multiclass/version_1/checkpoints/epoch=4-step=6749.ckpt
-agg_threshold: 0.45  # for agglomerative clustering
-hypernym_threshold: 0.8 # for hypernym scores
-save_path: checkpoints/multiclass/version_1
+agg_threshold: 0.4  # for agglomerative clustering
+hypernym_threshold: 0.55 # for hypernym scores
+save_path: checkpoints/multiclass/version_1/large

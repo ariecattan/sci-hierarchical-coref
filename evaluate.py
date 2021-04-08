@@ -9,7 +9,6 @@ from scipy import stats
 import math
 import os
 
-sys.path.append('.')
 
 from eval.hypernym import HypernymScore
 from eval.shortest_path import ShortestPath
