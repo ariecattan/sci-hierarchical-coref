@@ -28,7 +28,7 @@
 
 ```bash
 python boundary_baseline.py --gpu 0 \
-    --data_path data/test/jsonl/binu.jsonl \
+    --data_path data/test.jsonl \
     --output_dir checkpoints/boundary \
     --nli_model roberta-large-mnli
 ```
@@ -38,7 +38,7 @@ python boundary_baseline.py --gpu 0 \
 
 ```
 python predict_cosine_similarity.py --gpu 0 \
-    --data_path data/test/jsonl/binu.jsonl \
+    --data_path data/test.jsonl \
     --output_dir checkpoints/boundary \
     --bert_model bert-large-cased \
     --nli_model roberta-large-mnli \
